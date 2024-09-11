@@ -7,15 +7,14 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Film {
+public class User {
     Long id;
+    String email;
+    String login;
     String name;
-    String description;
-    Instant releaseDate;
-    // Duration in Seconds
-    Integer duration;
+    Instant birthday;
 }
