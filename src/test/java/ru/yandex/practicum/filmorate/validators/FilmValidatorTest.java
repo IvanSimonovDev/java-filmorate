@@ -11,8 +11,8 @@ import java.time.Instant;
 
 public class FilmValidatorTest {
     private Film film;
-    private final static int MAX_DESCRIPTION_LENGTH = 200;
-    private final static Instant MIN_RELEASE_DATE = Instant.parse("1895-12-28T00:00:00Z");
+    private static final int MAX_DESCRIPTION_LENGTH = 200;
+    private static final Instant MIN_RELEASE_DATE = Instant.parse("1895-12-28T00:00:00Z");
 
     @BeforeEach
     public void initializeFilm() {
