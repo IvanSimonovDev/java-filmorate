@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-
 @Setter
 @Getter
 @AllArgsConstructor
@@ -16,5 +14,5 @@ public class User {
     String email;
     String login;
     String name;
-    Instant birthday;
+    String birthday;
 }

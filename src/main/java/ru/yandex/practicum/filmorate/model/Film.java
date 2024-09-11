@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +13,7 @@ public class Film {
     Long id;
     String name;
     String description;
-    Instant releaseDate;
+    String releaseDate;
     // Duration in Seconds
     Integer duration;
 }
