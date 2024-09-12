@@ -10,9 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class User {
-    Long id;
-    String email;
-    String login;
-    String name;
-    String birthday;
+    private Long id;
+    private String email;
+    private String login;
+    private String name;
+    private String birthday;
 }

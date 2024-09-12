@@ -1,14 +1,13 @@
 package ru.yandex.practicum.filmorate.validators;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.Instant;
 
+@Slf4j
 public class UserValidator {
-    private static final Logger logger = LoggerFactory.getLogger(UserValidator.class);
     private static final String notPassedMessage = "User didn't pass Validation";
 
     public static void validateUser(User user) throws ValidationException {
@@ -17,7 +16,7 @@ public class UserValidator {
                 validateUserBirthday(user.getBirthday());
         if (!fieldsCorrect) {
             ValidationException validationException = new ValidationException(notPassedMessage);
-            logger.error(notPassedMessage, validationException);
+            log.error(notPassedMessage, validationException);
             throw validationException;
         }
     }

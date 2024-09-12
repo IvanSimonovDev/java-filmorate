@@ -1,14 +1,13 @@
 package ru.yandex.practicum.filmorate.validators;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.Instant;
 
+@Slf4j
 public class FilmValidator {
-    private static final Logger logger = LoggerFactory.getLogger(FilmValidator.class);
     private static final String NOT_PASSED_MESSAGE = "Film didn't pass Validation";
 
     public static void validateFilm(Film film) throws ValidationException {
@@ -18,7 +17,7 @@ public class FilmValidator {
                 validateFilmDuration(film.getDuration());
         if (!fieldsCorrect) {
             ValidationException validationException = new ValidationException(NOT_PASSED_MESSAGE);
-            logger.error(NOT_PASSED_MESSAGE, validationException);
+            log.error(NOT_PASSED_MESSAGE, validationException);
             throw validationException;
         }
     }

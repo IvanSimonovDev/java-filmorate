@@ -1,21 +1,21 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validators.UserValidator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final Map<Long, User> usersMemory = new HashMap<>();
     private Long currentId = (long) 0;
 
@@ -23,19 +23,19 @@ public class UserController {
 
     @GetMapping
     public Collection<User> returnAllUsers() {
-        return usersMemory.values();
+        return new ArrayList<>(usersMemory.values());
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) throws ValidationException {
-        logger.info("Started validation before user creation...");
+        log.info("Started validation before user creation...");
         UserValidator.validateUser(user);
-        logger.info("Validation passed.");
+        log.info("Validation passed.");
         setUserName(user, user.getName(), user.getLogin());
         Long newId = generateUserId();
         user.setId(newId);
         usersMemory.put(newId, user);
-        logger.info("User created and saved.");
+        log.info("User created and saved.");
         return user;
     }
 
@@ -43,20 +43,20 @@ public class UserController {
     public User updateUser(@RequestBody User updatedUser) throws ValidationException {
         Long updatedUserId = updatedUser.getId();
         if (usersMemory.containsKey(updatedUserId)) {
-            logger.info("Started validation before updating User with id = {}...", updatedUserId);
+            log.info("Started validation before updating User with id = {}...", updatedUserId);
             UserValidator.validateUser(updatedUser);
-            logger.info("Validation passed, started user updating...");
+            log.info("Validation passed, started user updating...");
             User oldUser = usersMemory.get(updatedUserId);
             oldUser.setEmail(updatedUser.getEmail());
             oldUser.setLogin(updatedUser.getLogin());
             setUserName(oldUser, updatedUser.getName(), updatedUser.getLogin());
             oldUser.setBirthday(updatedUser.getBirthday());
-            logger.info("User with id = {} updated.", updatedUserId);
+            log.info("User with id = {} updated.", updatedUserId);
             return oldUser;
         } else {
             NotFoundException notFoundException = new NotFoundException(NOT_FOUND_MESSAGE);
-            logger.error("Film with id = {} not found. Watch details below.", updatedUserId);
-            logger.error(NOT_FOUND_MESSAGE, notFoundException);
+            log.error("Film with id = {} not found. Watch details below.", updatedUserId);
+            log.error(NOT_FOUND_MESSAGE, notFoundException);
             throw notFoundException;
         }
     }

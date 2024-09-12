@@ -10,10 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class Film {
-    Long id;
-    String name;
-    String description;
-    String releaseDate;
+    private Long id;
+    private String name;
+    private String description;
+    private String releaseDate;
     // Duration in Seconds
-    Integer duration;
+    private Integer duration;
 }
