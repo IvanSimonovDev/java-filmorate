@@ -5,15 +5,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Film {
+public class User {
     private Long id;
+    private String email;
+    private String login;
     private String name;
-    private String description;
-    private String releaseDate;
-    // Duration in Seconds
-    private Integer duration;
+    private String birthday;
 }
