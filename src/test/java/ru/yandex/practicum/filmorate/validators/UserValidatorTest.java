@@ -3,15 +3,16 @@ package ru.yandex.practicum.filmorate.validators;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.service.validators.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.validators.UserValidator;
 
 public class UserValidatorTest {
     private User user;
 
     @BeforeEach
     public void initializeFilm() {
-        user = new User((long) 1, "user.user@yandex.ru", "user", "Dan", "1999-09-09");
+        user = new User((long) 1, "user.user@yandex.ru", "user", "Dan", "1999-09-09", null);
     }
 
     @Test
