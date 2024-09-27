@@ -24,7 +24,7 @@ public class ExceptionsHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
-    public Map<String, String> NotFoundExceptionsHandler(NotFoundException exc) {
+    public Map<String, String> notFoundExceptionsHandler(NotFoundException exc) {
         log.warn(EXCEPTION_CAUGHT_MESSAGE, exc);
         return Map.of("error", exc.getMessage());
     }
