@@ -12,7 +12,8 @@ import java.util.*;
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Long, User> usersMemory = new HashMap<>();
     private Long currentId = (long) 0;
-    private static final String NOT_FOUND_MESSAGE = "User not found.";
+    private static final String NOT_FOUND_MESSAGE = "User with id = {} not found.";
+    private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown because this user not found:";
 
     public void cleanStorage() {
         log.info("User storage cleaning started...");
@@ -25,14 +26,15 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public User returnUser(Long id) throws NotFoundException {
-        log.info("User searching started...");
+        log.info("User(id = {}) searching started...", id);
         User result = usersMemory.get(id);
         if (result == null) {
             NotFoundException notFoundException = new NotFoundException(NOT_FOUND_MESSAGE);
-            log.info(NOT_FOUND_MESSAGE, notFoundException);
+            log.warn(NOT_FOUND_MESSAGE, id);
+            log.warn(EXCEPTION_THROWN_MESSAGE, notFoundException);
             throw notFoundException;
         }
-        log.info("User found.");
+        log.info("User(id = {}) found.", id);
         return result;
     }
 
@@ -42,7 +44,7 @@ public class InMemoryUserStorage implements UserStorage {
         user.setId(newId);
         user.setFriends(new HashSet<>());
         usersMemory.put(newId, user);
-        log.info("User created and saved.");
+        log.info("User with id = {} created and saved.", newId);
         return user;
     }
 
@@ -58,8 +60,8 @@ public class InMemoryUserStorage implements UserStorage {
             return oldUser;
         } else {
             NotFoundException notFoundException = new NotFoundException(NOT_FOUND_MESSAGE);
-            log.error("Film with id = {} not found. Watch details below.", updatedUserId);
-            log.error(NOT_FOUND_MESSAGE, notFoundException);
+            log.warn(NOT_FOUND_MESSAGE, updatedUserId);
+            log.warn(EXCEPTION_THROWN_MESSAGE, notFoundException);
             throw notFoundException;
         }
     }

@@ -9,7 +9,8 @@ import java.util.*;
 @Component
 @Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
-    private static final String NOT_FOUND_MESSAGE = "Film not found.";
+    private static final String NOT_FOUND_MESSAGE = "Film with id = {} not found.";
+    private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown because this film not found:";
     private final Map<Long, Film> filmsMemory = new HashMap<>();
     private Long currentId = (long) 0;
 
@@ -24,14 +25,15 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     public Film returnFilm(Long id) throws NotFoundException {
-        log.info("Film searching started...");
+        log.info("Film(id = {}) searching started...", id);
         Film result = filmsMemory.get(id);
         if (result == null) {
             NotFoundException notFoundException = new NotFoundException(NOT_FOUND_MESSAGE);
-            log.info(NOT_FOUND_MESSAGE, notFoundException);
+            log.warn(NOT_FOUND_MESSAGE, id);
+            log.warn(EXCEPTION_THROWN_MESSAGE, notFoundException);
             throw notFoundException;
         }
-        log.info("Film found.");
+        log.info("Film with id = {} found.", id);
         return result;
     }
 
@@ -41,7 +43,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         film.setId(newId);
         film.setLikes(new HashSet<>());
         filmsMemory.put(newId, film);
-        log.info("Film created and saved.");
+        log.info("Film with id = {} created and saved.", newId);
         return film;
     }
 
@@ -57,8 +59,8 @@ public class InMemoryFilmStorage implements FilmStorage {
             return oldFilm;
         } else {
             NotFoundException notFoundException = new NotFoundException(NOT_FOUND_MESSAGE);
-            log.error("Film with id = {} not found. Watch details below.", updatedFilmId);
-            log.error(NOT_FOUND_MESSAGE, notFoundException);
+            log.warn(NOT_FOUND_MESSAGE, updatedFilmId);
+            log.warn(EXCEPTION_THROWN_MESSAGE, notFoundException);
             throw notFoundException;
         }
     }
