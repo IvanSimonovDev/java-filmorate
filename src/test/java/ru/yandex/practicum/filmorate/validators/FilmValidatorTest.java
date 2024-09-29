@@ -3,8 +3,9 @@ package ru.yandex.practicum.filmorate.validators;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.validators.FilmValidator;
+import ru.yandex.practicum.filmorate.service.validators.ValidationException;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -16,7 +17,7 @@ public class FilmValidatorTest {
 
     @BeforeEach
     public void initializeFilm() {
-        film = new Film((long) 1, "Film1", "Description1", "2022-02-02", 3600);
+        film = new Film((long) 1, "Film1", "Description1", "2022-02-02", 3600, null);
     }
 
     @Test
