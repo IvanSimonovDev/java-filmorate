@@ -6,7 +6,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.Comparator;
 
 @Service
-public class FilmsRatingComparator implements Comparator<Film> {
+public class FilmsLikesComparator implements Comparator<Film> {
     public int compare(Film filmFst, Film filmSnd) {
         int filmFstLikesAmount = filmFst.getLikes().size();
         int filmSndLikesAmount = filmSnd.getLikes().size();

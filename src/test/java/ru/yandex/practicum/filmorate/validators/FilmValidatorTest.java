@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.service.validators.ValidationException;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Set;
 
 public class FilmValidatorTest {
     private Film film;
@@ -17,7 +18,7 @@ public class FilmValidatorTest {
 
     @BeforeEach
     public void initializeFilm() {
-        film = new Film((long) 1, "Film1", "Description1", "2022-02-02", 3600, null);
+        film = new Film((long) 1, "Film1", "Description1", "2022-02-02", 3600, null, null, null);
     }
 
     @Test

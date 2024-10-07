@@ -42,7 +42,7 @@ public class InMemoryUserStorage implements UserStorage {
         setUserName(user, user.getName(), user.getLogin());
         Long newId = generateUserId();
         user.setId(newId);
-        user.setFriends(new HashSet<>());
+        user.setFriends(new HashMap<>());
         usersMemory.put(newId, user);
         log.info("User with id = {} created and saved.", newId);
         return user;
