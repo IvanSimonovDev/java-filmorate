@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
-    private final FilmsRatingComparator filmsRatingComparator;
+    private final FilmsLikesComparator filmsLikesComparator;
     private final UserStorage userStorage;
 
     public Film setLike(Long filmId, Long userId) throws NotFoundException {
@@ -39,7 +39,7 @@ public class FilmService {
         List<Film> result = filmStorage.returnAllFilms();
         int storageSize = result.size();
         int maxFilmsFromList = storageSize < maxFilms ? storageSize : maxFilms;
-        result.sort(filmsRatingComparator);
+        result.sort(filmsLikesComparator);
         return result.subList(0, maxFilmsFromList);
     }
 }

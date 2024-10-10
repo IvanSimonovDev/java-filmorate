@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class FilmsServiceTests extends ParentServicesTestsClass {
     private final FilmStorage filmStorage = new InMemoryFilmStorage();
-    private final FilmService filmService = new FilmService(filmStorage, new FilmsRatingComparator(), userStorage);
+    private final FilmService filmService = new FilmService(filmStorage, new FilmsLikesComparator(), userStorage);
     private static Film film1;
     private static Film film2;
     private static Film film3;

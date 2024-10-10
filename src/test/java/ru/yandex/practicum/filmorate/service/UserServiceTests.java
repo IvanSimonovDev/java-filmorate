@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class UserServiceTests extends ParentServicesTestsClass {
@@ -14,8 +15,8 @@ public class UserServiceTests extends ParentServicesTestsClass {
     @Test
     public void shouldCorrectlyAddToFriendsWhenThereAreNoFriends() {
         userService.addFriend(userId1, userId2);
-        boolean condition1 = user1.getFriends().equals(Set.of(userId2));
-        boolean condition2 = user2.getFriends().equals(Set.of(userId1));
+        boolean condition1 = user1.getFriends().equals(Map.of(userId2, true));
+        boolean condition2 = user2.getFriends().equals(Map.of(userId1, true));
         Assertions.assertTrue(condition1 && condition2);
     }
 
@@ -23,17 +24,17 @@ public class UserServiceTests extends ParentServicesTestsClass {
     public void shouldCorrectlyAddToFriendsWhenAlreadyHaveFriend() {
         userService.addFriend(userId1, userId2);
         userService.addFriend(userId1, userId3);
-        boolean condition1 = user1.getFriends().equals(Set.of(userId2, userId3));
-        boolean condition2 = user2.getFriends().equals(Set.of(userId1));
-        boolean condition3 = user3.getFriends().equals(Set.of(userId1));
+        boolean condition1 = user1.getFriends().equals(Map.of(userId2, true, userId3, true));
+        boolean condition2 = user2.getFriends().equals(Map.of(userId1, true));
+        boolean condition3 = user3.getFriends().equals(Map.of(userId1, true));
         Assertions.assertTrue(condition1 && condition2 && condition3);
     }
 
     @Test
     public void friendsDeletionShouldCauseNoEffectWhenThereAreNoFriends() {
         userService.deleteFriend(userId1, userId2);
-        boolean condition1 = user1.getFriends().equals(new HashSet<>());
-        boolean condition2 = user2.getFriends().equals(new HashSet<>());
+        boolean condition1 = user1.getFriends().equals(new HashMap<>());
+        boolean condition2 = user2.getFriends().equals(new HashMap<>());
         Assertions.assertTrue(condition1 && condition2);
     }
 
@@ -43,7 +44,7 @@ public class UserServiceTests extends ParentServicesTestsClass {
         userService.addFriend(userId1, userId3);
         userService.deleteFriend(userId1, userId2);
         userService.deleteFriend(userId1, userId3);
-        boolean condition = user1.getFriends().equals(new HashSet<>());
+        boolean condition = user1.getFriends().equals(new HashMap<>());
         Assertions.assertTrue(condition);
     }
 

@@ -18,4 +18,6 @@ public class Film {
     private Integer duration;
     // Set contains ids of users who liked film
     private Set<Long> likes;
+    private Set<Genre> genres;
+    private Rating rating;
 }

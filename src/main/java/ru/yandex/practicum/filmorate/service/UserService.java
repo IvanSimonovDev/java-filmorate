@@ -22,8 +22,8 @@ public class UserService {
     public User addFriend(Long userId, Long friendId) throws NotFoundException {
         setTwoUsers(userId, friendId);
         log.info("Making friendship for users with ids: {}, {}...", userId, friendId);
-        userFst.getFriends().add(friendId);
-        userSnd.getFriends().add(userId);
+        userFst.getFriends().put(friendId, true);
+        userSnd.getFriends().put(userId, true);
         return userSnd;
     }
 
@@ -39,8 +39,8 @@ public class UserService {
         setTwoUsers(fstUserId, sndUserId);
         log.info("Forming common friends list for users with ids: {}, {}...",
                 fstUserId, sndUserId);
-        Set<Long> userFstFriends = new HashSet<>(userFst.getFriends());
-        Set<Long> userSndFriends = new HashSet<>(userSnd.getFriends());
+        Set<Long> userFstFriends = new HashSet<>(userFst.getFriends().keySet());
+        Set<Long> userSndFriends = new HashSet<>(userSnd.getFriends().keySet());
         userFstFriends.retainAll(userSndFriends);
         return userFstFriends.stream().map(userStorage::returnUser).toList();
     }
@@ -48,7 +48,7 @@ public class UserService {
     public List<User> userFriends(Long userId) throws NotFoundException {
         setTwoUsers(userId, userId);
         log.info("Forming friends list for user with id = {}...", userId);
-        return userFst.getFriends().stream()
+        return userFst.getFriends().keySet().stream()
                 .map(userStorage::returnUser)
                 .toList();
     }
