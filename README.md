@@ -8,20 +8,34 @@ Template repository for Filmorate project.
 ## Query for film with id = {id}
 
 ```SQL
-SELECT *
-FROM films
-LEFT JOIN genres ON films.genre_id = genres.id 
-LEFT JOIN ratings ON films.rating_id = ratings.id 
+SELECT f.id,
+       f.name,
+       f.description,
+       f.release_date,
+       f.duration,
+       r.name,
+       g.name
+FROM films AS f
+LEFT JOIN ratings AS r ON f.rating_id = r.id
+LEFT JOIN films_genres AS fg ON f.id = fg.film_id 
+LEFT JOIN genres AS g ON fg.genre_id = g.id 
 WHERE id = {id};
 ```
 
 ## Query for all films
 
 ```SQL
-SELECT *
-FROM films
-LEFT JOIN genres ON films.genre_id = genres.id 
-LEFT JOIN ratings ON films.rating_id = ratings.id;
+SELECT f.id,
+       f.name,
+       f.description,
+       f.release_date,
+       f.duration,
+       r.name,
+       g.name
+FROM films AS f
+LEFT JOIN ratings AS r ON f.rating_id = r.id
+LEFT JOIN films_genres AS fg ON f.id = fg.film_id 
+LEFT JOIN genres AS g ON fg.genre_id = g.id;
 ```
 
 ## Query for user with id = {id}
