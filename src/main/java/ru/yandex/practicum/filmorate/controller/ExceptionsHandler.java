@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.service.validators.ValidationException;
-import ru.yandex.practicum.filmorate.storage.NotFoundException;
+import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 
 import java.util.Map;
 

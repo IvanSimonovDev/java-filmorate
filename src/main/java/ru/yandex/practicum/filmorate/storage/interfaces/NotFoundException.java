@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.interfaces;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
