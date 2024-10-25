@@ -18,6 +18,8 @@ public class Film {
     private Integer duration;
     // Set contains ids of users who liked film
     private Set<Long> likes;
-    private Set<Genre> genres;
-    private Rating rating;
+    //Containers of genres ids
+    private Set<IdNameMapping> genres;
+    //Object with rating id
+    private IdNameMapping mpa;
 }

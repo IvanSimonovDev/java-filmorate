@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.interfaces_realizations.db;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,9 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappers.FriendShipMapper;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappers.UserMapper;
-import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +60,16 @@ public class DbUsersStorage implements UserStorage {
             FROM users AS u
             INNER JOIN friendships AS f ON u.id = f.fst_user_id
             WHERE u.id = ?;
+            """;
+
+    private static final String DELETE_USER_FRIENDSHIPS_SQL_QUERY = """
+            DELETE FROM friendships
+            WHERE fst_user_id = ?;
+            """;
+
+    private static final String INSERT_USER_FRIENDSHIP_SQL_QUERY = """
+            INSERT INTO friendships (fst_user_id, snd_user_id, accepted_by_second)
+            VALUES (?, ?, ?);
             """;
 
     private static final String INSERT_USER_BASIC_INFO_SQL_QUERY = """
@@ -161,6 +170,8 @@ public class DbUsersStorage implements UserStorage {
                     updatedUser.getLogin(),
                     updatedUser.getId());
 
+            updateUserFriends(updatedUser);
+
 
             return returnUser(updatedUser.getId());
         } catch (DataIntegrityViolationException exc) {
@@ -186,5 +197,19 @@ public class DbUsersStorage implements UserStorage {
         user.setFriends(userFriendshipsMap);
     }
 
+    private void updateUserFriends(User updatedUser) {
+        long updatedUserId = updatedUser.getId();
+        jdbcTemplate.update(DELETE_USER_FRIENDSHIPS_SQL_QUERY, updatedUser.getId());
+        Consumer<Map.Entry<Long, Boolean>> insertUserFriendShip =
+                friendship ->
+                        jdbcTemplate.update(
+                                INSERT_USER_FRIENDSHIP_SQL_QUERY,
+                                updatedUserId, friendship.getKey(),
+                                friendship.getValue());
+        Map<Long, Boolean> updatedUserFriends = updatedUser.getFriends();
+        if (updatedUserFriends != null) {
+            updatedUserFriends.entrySet().forEach(insertUserFriendShip);
+        }
 
+    }
 }

@@ -8,7 +8,10 @@ import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,21 +25,27 @@ public class FilmService {
         Film film = filmStorage.returnFilm(filmId);
         userStorage.returnUser(userId);
         log.info("Adding like to film(id = {}) from user(id = {})...", filmId, userId);
-        film.getLikes().add(userId);
-        return film;
+        Set<Long> filmLikes = new HashSet<>(film.getLikes());
+        filmLikes.add(userId);
+        film.setLikes(filmLikes);
+        filmStorage.updateFilm(film);
+        return filmStorage.returnFilm(filmId);
     }
 
     public Film deleteLike(Long filmId, Long userId) throws NotFoundException {
         Film film = filmStorage.returnFilm(filmId);
         userStorage.returnUser(userId);
         log.info("Removing like from film(id = {}) by user(id = {})...", filmId, userId);
-        film.getLikes().remove(userId);
-        return film;
+        Set<Long> filmLikes = new HashSet<>(film.getLikes());
+        filmLikes.remove(userId);
+        film.setLikes(filmLikes);
+        filmStorage.updateFilm(film);
+        return filmStorage.returnFilm(filmId);
     }
 
     public List<Film> mostPopularFilms(int maxFilms) {
         log.info("Forming top films list...");
-        List<Film> result = filmStorage.returnAllFilms();
+        List<Film> result = new ArrayList<>(filmStorage.returnAllFilms());
         int storageSize = result.size();
         int maxFilmsFromList = storageSize < maxFilms ? storageSize : maxFilms;
         result.sort(filmsLikesComparator);

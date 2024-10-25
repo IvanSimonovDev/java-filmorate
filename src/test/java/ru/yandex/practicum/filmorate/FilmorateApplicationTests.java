@@ -32,9 +32,7 @@ class FilmorateApplicationTests {
     private User user2;
 
     @Test
-    void contextLoads() {
-
-    }
+    void contextLoads() {}
 
     @Test
     public void canCreateFilmsInDBAndReceiveAllFilms() {
@@ -150,26 +148,26 @@ class FilmorateApplicationTests {
 
     @Test
     public void dbShouldReturnAllGenreMappings() {
-        List<GenreMapping> allGenreMappings = dbFilmsGenresAndRatingsStorage.returnAllGenresMappings();
+        List<IdNameMapping> allGenreMappings = dbFilmsGenresAndRatingsStorage.returnAllGenresMappings();
         Assertions.assertEquals(allGenreMappings.size(), 6);
     }
 
     @Test
     public void dbShouldReturnGenreMappingById() {
-        GenreMapping returnedGenreMapping = dbFilmsGenresAndRatingsStorage.returnGenreMappingById((long) 2);
-        Assertions.assertEquals(returnedGenreMapping.getGenre(), Genre.DRAMA);
+        IdNameMapping returnedGenreMapping = dbFilmsGenresAndRatingsStorage.returnGenreMappingById((long) 2);
+        Assertions.assertEquals(returnedGenreMapping.getName(), "Драма");
     }
 
     @Test
     public void dbShouldReturnAllRatingMappings() {
-        List<RatingMapping> allRatingMappings = dbFilmsGenresAndRatingsStorage.returnAllRatingsMappings();
+        List<IdNameMapping> allRatingMappings = dbFilmsGenresAndRatingsStorage.returnAllRatingsMappings();
         Assertions.assertEquals(allRatingMappings.size(), 5);
     }
 
     @Test
     public void dbShouldReturnRatingMappingById() {
-        RatingMapping returnedRatingMapping = dbFilmsGenresAndRatingsStorage.returnRatingMappingById((long) 2);
-        Assertions.assertEquals(returnedRatingMapping.getRating(), Rating.PG);
+        IdNameMapping returnedRatingMapping = dbFilmsGenresAndRatingsStorage.returnRatingMappingById((long) 2);
+        Assertions.assertEquals(returnedRatingMapping.getName(), "PG");
     }
 
     @BeforeEach
@@ -179,16 +177,19 @@ class FilmorateApplicationTests {
         film1.setDescription("Description_1");
         film1.setReleaseDate("2001-01-01");
         film1.setDuration(60);
-        film1.setGenres(Set.of(Genre.COMEDY, Genre.CARTOON));
-        film1.setRating(Rating.G);
+        film1.setLikes(Set.of());
+        film1.setGenres(Set.of(new IdNameMapping(1, "Комедия"),
+                new IdNameMapping(2, "Драма")));
+        film1.setMpa(new IdNameMapping(1, "G"));
 
         film2 = new Film();
         film2.setName("Film2");
         film2.setDescription("Description_2");
         film2.setReleaseDate("2002-01-01");
         film2.setDuration(90);
-        film2.setGenres(Set.of(Genre.COMEDY));
-        film2.setRating(Rating.PG);
+        film2.setLikes(Set.of());
+        film2.setGenres(Set.of(new IdNameMapping(1, "Комедия")));
+        film2.setMpa(new IdNameMapping(3, "PG-13"));
     }
 
     @BeforeEach

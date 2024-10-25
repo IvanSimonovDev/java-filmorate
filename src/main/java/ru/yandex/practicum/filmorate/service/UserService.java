@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -21,18 +22,34 @@ public class UserService {
 
     public User addFriend(Long userId, Long friendId) throws NotFoundException {
         setTwoUsers(userId, friendId);
-        log.info("Making friendship for users with ids: {}, {}...", userId, friendId);
-        userFst.getFriends().put(friendId, true);
-        userSnd.getFriends().put(userId, true);
-        return userSnd;
+        if (!isUserFstAddedToFriendsOfUserSnd(friendId, userId)) {
+            log.info("Making friendship for users with ids: {}, {}...", userId, friendId);
+            if (isUserFstAddedToFriendsOfUserSnd(userId, friendId)) {
+                makeOneDirectionFriendShip(userSnd, userId, true);
+                userStorage.updateUser(userSnd);
+                makeOneDirectionFriendShip(userFst, friendId, true);
+            } else {
+                makeOneDirectionFriendShip(userFst, friendId, false);
+            }
+            userStorage.updateUser(userFst);
+        }
+        return userStorage.returnUser(userId);
     }
 
     public User deleteFriend(Long userId, Long friendId) throws NotFoundException {
         setTwoUsers(userId, friendId);
-        log.info("Removing friendship for users with ids: {}, {}...", userId, friendId);
-        userFst.getFriends().remove(friendId);
-        userSnd.getFriends().remove(userId);
-        return userSnd;
+        if (isUserFstAddedToFriendsOfUserSnd(friendId, userId)) {
+            log.info("Removing friendship for users with ids: {}, {}...", userId, friendId);
+            Map<Long, Boolean> friendsOfUserFst = userFst.getFriends();
+            friendsOfUserFst.remove(friendId);
+            userFst.setFriends(friendsOfUserFst);
+            if (isUserFstAddedToFriendsOfUserSnd(userId, friendId)) {
+                makeOneDirectionFriendShip(userSnd, userId, false);
+                userStorage.updateUser(userSnd);
+            }
+            userStorage.updateUser(userFst);
+        }
+        return userStorage.returnUser(userId);
     }
 
     public List<User> commonFriends(Long fstUserId, Long sndUserId) throws NotFoundException {
@@ -57,5 +74,17 @@ public class UserService {
         log.info("Started two users searching with ids: {}, {}", userFstId, userSndId);
         userFst = userStorage.returnUser(userFstId);
         userSnd = userStorage.returnUser(userSndId);
+    }
+
+    private boolean isUserFstAddedToFriendsOfUserSnd(Long userFstId, Long userSndId) {
+        User userFst = userStorage.returnUser(userFstId);
+        User userSnd = userStorage.returnUser(userSndId);
+        return userSnd.getFriends().containsKey(userFstId);
+    }
+
+    private void makeOneDirectionFriendShip(User user, Long friendId, boolean status) {
+        Map<Long, Boolean> friendsOfUser = user.getFriends();
+        friendsOfUser.put(friendId, status);
+        user.setFriends(friendsOfUser);
     }
 }

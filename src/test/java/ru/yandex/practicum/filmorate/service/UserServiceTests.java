@@ -15,8 +15,8 @@ public class UserServiceTests extends ParentServicesTestsClass {
     @Test
     public void shouldCorrectlyAddToFriendsWhenThereAreNoFriends() {
         userService.addFriend(userId1, userId2);
-        boolean condition1 = user1.getFriends().equals(Map.of(userId2, true));
-        boolean condition2 = user2.getFriends().equals(Map.of(userId1, true));
+        boolean condition1 = user1.getFriends().equals(Map.of(userId2, false));
+        boolean condition2 = user2.getFriends().equals(Map.of());
         Assertions.assertTrue(condition1 && condition2);
     }
 
@@ -24,9 +24,9 @@ public class UserServiceTests extends ParentServicesTestsClass {
     public void shouldCorrectlyAddToFriendsWhenAlreadyHaveFriend() {
         userService.addFriend(userId1, userId2);
         userService.addFriend(userId1, userId3);
-        boolean condition1 = user1.getFriends().equals(Map.of(userId2, true, userId3, true));
-        boolean condition2 = user2.getFriends().equals(Map.of(userId1, true));
-        boolean condition3 = user3.getFriends().equals(Map.of(userId1, true));
+        boolean condition1 = user1.getFriends().equals(Map.of(userId2, false, userId3, false));
+        boolean condition2 = user2.getFriends().equals(Map.of());
+        boolean condition3 = user3.getFriends().equals(Map.of());
         Assertions.assertTrue(condition1 && condition2 && condition3);
     }
 
@@ -45,6 +45,7 @@ public class UserServiceTests extends ParentServicesTestsClass {
         userService.deleteFriend(userId1, userId2);
         userService.deleteFriend(userId1, userId3);
         boolean condition = user1.getFriends().equals(new HashMap<>());
+        System.out.println(user1.getFriends());
         Assertions.assertTrue(condition);
     }
 
@@ -56,8 +57,8 @@ public class UserServiceTests extends ParentServicesTestsClass {
 
     @Test
     public void shouldFindCommonFriendsWhenThereAreCommonFriends() {
-        userService.addFriend(userId1, userId2);
-        userService.addFriend(userId1, userId3);
+        userService.addFriend(userId2, userId1);
+        userService.addFriend(userId3, userId1);
         List<User> commonFriendsUserSndUserThd = userService.commonFriends(userId2, userId3);
         Assertions.assertEquals(Set.copyOf(commonFriendsUserSndUserThd), Set.of(user1));
     }

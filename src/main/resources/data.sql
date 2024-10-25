@@ -1,5 +1,4 @@
 -- Initializing table ratings
-
 MERGE INTO ratings
 KEY (id, name)
 VALUES (1, 'G');
@@ -10,7 +9,7 @@ VALUES (2, 'PG');
 
 MERGE INTO ratings
 KEY (id, name)
-VALUES (3, 'PG_13');
+VALUES (3, 'PG-13');
 
 MERGE INTO ratings
 KEY (id, name)
@@ -18,30 +17,30 @@ VALUES (4, 'R');
 
 MERGE INTO ratings
 KEY (id, name)
-VALUES (5, 'NC_17');
+VALUES (5, 'NC-17');
 
 -- Initializing table genres
 
 MERGE INTO genres
 KEY (id, name)
-VALUES (1, 'COMEDY');
+VALUES (1, 'Комедия');
 
 MERGE INTO genres
 KEY (id, name)
-VALUES (2, 'DRAMA');
+VALUES (2, 'Драма');
 
 MERGE INTO genres
 KEY (id, name)
-VALUES (3, 'CARTOON');
+VALUES (3, 'Мультфильм');
 
 MERGE INTO genres
 KEY (id, name)
-VALUES (4, 'THRILLER');
+VALUES (4, 'Триллер');
 
 MERGE INTO genres
 KEY (id, name)
-VALUES (5, 'DOCUMENTARY');
+VALUES (5, 'Документальный');
 
 MERGE INTO genres
 KEY (id, name)
-VALUES (6, 'ACTION_FILM');
+VALUES (6, 'Боевик');
