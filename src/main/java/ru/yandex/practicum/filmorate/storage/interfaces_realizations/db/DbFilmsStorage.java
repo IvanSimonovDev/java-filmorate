@@ -56,7 +56,7 @@ public class DbFilmsStorage implements FilmStorage {
             WHERE id = ?;
             """;
 
-        private static final String RETURN_RATING_NAME_BY_ID = """
+    private static final String RETURN_RATING_NAME_BY_ID = """
             SELECT name
             FROM ratings
             WHERE id = ?;
@@ -178,7 +178,7 @@ public class DbFilmsStorage implements FilmStorage {
                     updatedFilm.getDuration(),
                     ratingId,
                     updatedFilmId);
-            
+
             //updating table films_genres
             jdbcTemplate.update(DELETE_GENRES_OF_CERTAIN_FILM, updatedFilmId);
             insertFilmsGenresIdsToDB(updatedFilm);

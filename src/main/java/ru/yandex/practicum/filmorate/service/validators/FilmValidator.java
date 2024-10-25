@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.IdNameMapping;
 
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +50,7 @@ public class FilmValidator {
     }
 
     private static boolean validateFilmGenresIds(Set<IdNameMapping> filmGenreIdsContainers) {
-        List<Integer> validGenresIds = List.of(1,2,3,4,5,6);
+        List<Integer> validGenresIds = List.of(1, 2, 3, 4, 5, 6);
         List<Integer> filmGenreIds = null;
         if (filmGenreIdsContainers != null) {
             filmGenreIds = filmGenreIdsContainers.stream().map(IdNameMapping::getId).toList();
@@ -60,7 +59,7 @@ public class FilmValidator {
     }
 
     private static boolean validateFilmMpa(IdNameMapping filmMpaContainer) {
-        List<Integer> validRatingIds = List.of(1,2,3,4,5);
+        List<Integer> validRatingIds = List.of(1, 2, 3, 4, 5);
         return filmMpaContainer != null && validRatingIds.contains(filmMpaContainer.getId());
     }
 }

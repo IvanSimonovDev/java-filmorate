@@ -3,8 +3,8 @@ package ru.yandex.practicum.filmorate.service;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.interfaces_realizations.ram.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces_realizations.ram.InMemoryUserStorage;
 
 public class ParentServicesTestsClass {
     protected static User user1;
