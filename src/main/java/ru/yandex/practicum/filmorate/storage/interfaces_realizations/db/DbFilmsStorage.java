@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.IdNameMapping;
+import ru.yandex.practicum.filmorate.model.IdNameMappingComparator;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappers.FilmMapper;
@@ -16,7 +17,9 @@ import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmapper
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Primary
 @Repository
@@ -81,6 +84,16 @@ public class DbFilmsStorage implements FilmStorage {
             WHERE film_id = ?;
             """;
 
+    private static final String INSERT_FILM_LIKE_SQL_QUERY = """
+            INSERT INTO likes (user_id, film_id)
+            VALUES (?, ?);
+            """;
+
+    private static final String DELETE_LIKES_OF_CERTAIN_FILM = """
+            DELETE FROM likes
+            WHERE film_id = ?;
+            """;
+
     private static final String INSERT_FILM_WITHOUT_GENRES_SQL_QUERY = """
             INSERT INTO films (id, name, description, release_date, duration, rating_id)
             VALUES (?, ?, ?, ?, ?, ?);
@@ -134,7 +147,7 @@ public class DbFilmsStorage implements FilmStorage {
 
         // Creating rows in films_genres
         insertFilmsGenresIdsToDB(film);
-        return film;
+        return returnFilm(film.getId());
     }
 
     private long generateFilmId() throws DataAccessException {
@@ -169,7 +182,15 @@ public class DbFilmsStorage implements FilmStorage {
             //updating table films_genres
             jdbcTemplate.update(DELETE_GENRES_OF_CERTAIN_FILM, updatedFilmId);
             insertFilmsGenresIdsToDB(updatedFilm);
-            
+
+            //updating table likes
+            Set<Long> filmLikes = updatedFilm.getLikes();
+            if (!(filmLikes == null || filmLikes.isEmpty())) {
+                jdbcTemplate.update(DELETE_LIKES_OF_CERTAIN_FILM, updatedFilmId);
+                Function<Long, Integer> insertLikeOfFilm = (userId) ->
+                        jdbcTemplate.update(INSERT_FILM_LIKE_SQL_QUERY, userId, updatedFilmId);
+                filmLikes.stream().map(insertLikeOfFilm).toList();
+            }
 
             return returnFilm(updatedFilmId);
         } catch (DataIntegrityViolationException exc) {
@@ -188,7 +209,8 @@ public class DbFilmsStorage implements FilmStorage {
         //Setting genres
         List<IdNameMapping> filmGenresMappingsList = jdbcTemplate.query(RETURN_FILM_GENRES_IDS_AND_NAMES_SQL_QUERY,
                 genreMappingMapper, filmId);
-        Set<IdNameMapping> filmGenresMappingsSet = Set.copyOf(filmGenresMappingsList);
+        TreeSet<IdNameMapping> filmGenresMappingsSet = new TreeSet<>(new IdNameMappingComparator());
+        filmGenresMappingsSet.addAll(filmGenresMappingsList);
         film.setGenres(filmGenresMappingsSet);
 
         // Setting likes

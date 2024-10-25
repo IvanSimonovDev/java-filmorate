@@ -8,15 +8,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.model.*;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.IdNameMapping;
+import ru.yandex.practicum.filmorate.model.IdNameMappingComparator;
+import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.DbFilmsGenresAndRatingsStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.DbFilmsStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.DbUsersStorage;
-import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 @SpringBootTest
@@ -32,7 +36,8 @@ class FilmorateApplicationTests {
     private User user2;
 
     @Test
-    void contextLoads() {}
+    void contextLoads() {
+    }
 
     @Test
     public void canCreateFilmsInDBAndReceiveAllFilms() {
@@ -178,8 +183,9 @@ class FilmorateApplicationTests {
         film1.setReleaseDate("2001-01-01");
         film1.setDuration(60);
         film1.setLikes(Set.of());
-        film1.setGenres(Set.of(new IdNameMapping(1, "Комедия"),
-                new IdNameMapping(2, "Драма")));
+        TreeSet<IdNameMapping> genres = new TreeSet<>(new IdNameMappingComparator());
+        genres.addAll(Set.of(new IdNameMapping(1, "Комедия"), new IdNameMapping(2, "Драма")));
+        film1.setGenres(genres);
         film1.setMpa(new IdNameMapping(1, "G"));
 
         film2 = new Film();
@@ -188,7 +194,9 @@ class FilmorateApplicationTests {
         film2.setReleaseDate("2002-01-01");
         film2.setDuration(90);
         film2.setLikes(Set.of());
-        film2.setGenres(Set.of(new IdNameMapping(1, "Комедия")));
+        genres = new TreeSet<>(new IdNameMappingComparator());
+        genres.add(new IdNameMapping(1, "Комедия"));
+        film2.setGenres(genres);
         film2.setMpa(new IdNameMapping(3, "PG-13"));
     }
 
