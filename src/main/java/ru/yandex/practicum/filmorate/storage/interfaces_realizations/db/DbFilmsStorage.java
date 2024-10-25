@@ -136,14 +136,14 @@ public class DbFilmsStorage implements FilmStorage {
     public Film createFilm(Film film) throws DataAccessException {
         // Creating row in films
         film.setId(generateFilmId());
-        long rating_id = film.getMpa().getId();
+        long ratingId = film.getMpa().getId();
         jdbcTemplate.update(INSERT_FILM_WITHOUT_GENRES_SQL_QUERY,
                 film.getId(),
                 film.getName(),
                 film.getDescription(),
                 film.getReleaseDate(),
                 film.getDuration(),
-                rating_id);
+                ratingId);
 
         // Creating rows in films_genres
         insertFilmsGenresIdsToDB(film);
