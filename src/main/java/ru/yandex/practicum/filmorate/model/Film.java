@@ -19,7 +19,7 @@ public class Film {
     // Set contains ids of users who liked film
     private Set<Long> likes;
     //Containers of genres ids
-    private Set<IdNameMapping> genres;
+    private Set<GenreRatingDto> genres;
     //Object with rating id
-    private IdNameMapping mpa;
+    private GenreRatingDto mpa;
 }

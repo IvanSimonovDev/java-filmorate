@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
-import ru.yandex.practicum.filmorate.storage.FilmsGenresAndRatingsStorage;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
+import ru.yandex.practicum.filmorate.storage.interfaces.FilmsGenresAndRatingsStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappers.GenreMappingMapper;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappers.RatingMappingMapper;
@@ -45,16 +45,16 @@ public class DbFilmsGenresAndRatingsStorage implements FilmsGenresAndRatingsStor
             """;
 
 
-    public List<IdNameMapping> returnAllGenresMappings() {
+    public List<GenreRatingDto> returnAllGenresMappings() {
         return jdbcTemplate.query(RETURN_ALL_GENREMAPPINGS_SQL_QUERY, genreMappingMapper);
     }
 
-    public List<IdNameMapping> returnAllRatingsMappings() {
+    public List<GenreRatingDto> returnAllRatingsMappings() {
         return jdbcTemplate.query(RETURN_ALL_RATINGMAPPINGS_SQL_QUERY, ratingMappingMapper);
     }
 
-    public IdNameMapping returnGenreMappingById(Long id) throws NotFoundException {
-        IdNameMapping genreMapping;
+    public GenreRatingDto returnGenreMappingById(Long id) throws NotFoundException {
+        GenreRatingDto genreMapping;
 
         try {
             genreMapping = jdbcTemplate.queryForObject(RETURN_GENREMAPPING_BY_ID_SQL_QUERY, genreMappingMapper, id);
@@ -64,8 +64,8 @@ public class DbFilmsGenresAndRatingsStorage implements FilmsGenresAndRatingsStor
         return genreMapping;
     }
 
-    public IdNameMapping returnRatingMappingById(Long id) throws NotFoundException {
-        IdNameMapping ratingMapping;
+    public GenreRatingDto returnRatingMappingById(Long id) throws NotFoundException {
+        GenreRatingDto ratingMapping;
 
         try {
             ratingMapping = jdbcTemplate.queryForObject(RETURN_RATINGMAPPING_BY_ID_SQL_QUERY, ratingMappingMapper, id);

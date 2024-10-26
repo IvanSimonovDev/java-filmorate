@@ -1,17 +1,16 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.interfaces;
 
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
-import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
 
 import java.util.List;
 
 public interface FilmsGenresAndRatingsStorage {
-    List<IdNameMapping> returnAllGenresMappings();
+    List<GenreRatingDto> returnAllGenresMappings();
 
-    List<IdNameMapping> returnAllRatingsMappings();
+    List<GenreRatingDto> returnAllRatingsMappings();
 
-    IdNameMapping returnGenreMappingById(Long id) throws NotFoundException;
+    GenreRatingDto returnGenreMappingById(Long id) throws NotFoundException;
 
-    IdNameMapping returnRatingMappingById(Long id) throws NotFoundException;
+    GenreRatingDto returnRatingMappingById(Long id) throws NotFoundException;
 
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.DbFilmsGenresAndRatingsStorage;
 
@@ -21,12 +21,12 @@ public class GenresMappingsController {
     private final DbFilmsGenresAndRatingsStorage dbFilmsGenresAndRatingsStorage;
 
     @GetMapping
-    public Collection<IdNameMapping> returnAllGenresMappings() {
+    public Collection<GenreRatingDto> returnAllGenresMappings() {
         return dbFilmsGenresAndRatingsStorage.returnAllGenresMappings();
     }
 
     @GetMapping("/{id}")
-    public IdNameMapping returnGenreMapping(@PathVariable Long id) throws NotFoundException {
+    public GenreRatingDto returnGenreMapping(@PathVariable Long id) throws NotFoundException {
         return dbFilmsGenresAndRatingsStorage.returnGenreMappingById(id);
     }
 

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
-import ru.yandex.practicum.filmorate.model.IdNameMappingComparator;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
+import ru.yandex.practicum.filmorate.model.GenreRatingDtoComparator;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.DbFilmsGenresAndRatingsStorage;
@@ -153,25 +153,25 @@ class FilmorateApplicationTests {
 
     @Test
     public void dbShouldReturnAllGenreMappings() {
-        List<IdNameMapping> allGenreMappings = dbFilmsGenresAndRatingsStorage.returnAllGenresMappings();
+        List<GenreRatingDto> allGenreMappings = dbFilmsGenresAndRatingsStorage.returnAllGenresMappings();
         Assertions.assertEquals(allGenreMappings.size(), 6);
     }
 
     @Test
     public void dbShouldReturnGenreMappingById() {
-        IdNameMapping returnedGenreMapping = dbFilmsGenresAndRatingsStorage.returnGenreMappingById((long) 2);
+        GenreRatingDto returnedGenreMapping = dbFilmsGenresAndRatingsStorage.returnGenreMappingById((long) 2);
         Assertions.assertEquals(returnedGenreMapping.getName(), "Драма");
     }
 
     @Test
     public void dbShouldReturnAllRatingMappings() {
-        List<IdNameMapping> allRatingMappings = dbFilmsGenresAndRatingsStorage.returnAllRatingsMappings();
+        List<GenreRatingDto> allRatingMappings = dbFilmsGenresAndRatingsStorage.returnAllRatingsMappings();
         Assertions.assertEquals(allRatingMappings.size(), 5);
     }
 
     @Test
     public void dbShouldReturnRatingMappingById() {
-        IdNameMapping returnedRatingMapping = dbFilmsGenresAndRatingsStorage.returnRatingMappingById((long) 2);
+        GenreRatingDto returnedRatingMapping = dbFilmsGenresAndRatingsStorage.returnRatingMappingById((long) 2);
         Assertions.assertEquals(returnedRatingMapping.getName(), "PG");
     }
 
@@ -183,10 +183,10 @@ class FilmorateApplicationTests {
         film1.setReleaseDate("2001-01-01");
         film1.setDuration(60);
         film1.setLikes(Set.of());
-        TreeSet<IdNameMapping> genres = new TreeSet<>(new IdNameMappingComparator());
-        genres.addAll(Set.of(new IdNameMapping(1, "Комедия"), new IdNameMapping(2, "Драма")));
+        TreeSet<GenreRatingDto> genres = new TreeSet<>(new GenreRatingDtoComparator());
+        genres.addAll(Set.of(new GenreRatingDto(1, "Комедия"), new GenreRatingDto(2, "Драма")));
         film1.setGenres(genres);
-        film1.setMpa(new IdNameMapping(1, "G"));
+        film1.setMpa(new GenreRatingDto(1, "G"));
 
         film2 = new Film();
         film2.setName("Film2");
@@ -194,10 +194,10 @@ class FilmorateApplicationTests {
         film2.setReleaseDate("2002-01-01");
         film2.setDuration(90);
         film2.setLikes(Set.of());
-        genres = new TreeSet<>(new IdNameMappingComparator());
-        genres.add(new IdNameMapping(1, "Комедия"));
+        genres = new TreeSet<>(new GenreRatingDtoComparator());
+        genres.add(new GenreRatingDto(1, "Комедия"));
         film2.setGenres(genres);
-        film2.setMpa(new IdNameMapping(3, "PG-13"));
+        film2.setMpa(new GenreRatingDto(3, "PG-13"));
     }
 
     @BeforeEach

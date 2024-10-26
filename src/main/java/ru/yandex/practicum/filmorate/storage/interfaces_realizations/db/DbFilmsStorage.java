@@ -8,8 +8,8 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
-import ru.yandex.practicum.filmorate.model.IdNameMappingComparator;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
+import ru.yandex.practicum.filmorate.model.GenreRatingDtoComparator;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappers.FilmMapper;
@@ -65,7 +65,7 @@ public class DbFilmsStorage implements FilmStorage {
             SELECT g.id,
                    g.name
             FROM films_genres AS fg
-            INNER JOIN genres AS g ON fg.genre_id = g.id
+            JOIN genres AS g ON fg.genre_id = g.id
             WHERE film_id = ?;
             """;
 
@@ -157,7 +157,7 @@ public class DbFilmsStorage implements FilmStorage {
 
     private void insertFilmsGenresIdsToDB(Film film) {
         if (film.getGenres() != null) {
-            List<Integer> filmGenresIds = film.getGenres().stream().map(IdNameMapping::getId).toList();
+            List<Integer> filmGenresIds = film.getGenres().stream().map(GenreRatingDto::getId).toList();
             long filmId = film.getId();
             Consumer<Integer> insertMappingFilmGenre =
                     (genreId) -> jdbcTemplate.update(INSERT_GENRE_ID_OF_CERTAIN_FILM, filmId, genreId);
@@ -204,12 +204,12 @@ public class DbFilmsStorage implements FilmStorage {
         //Setting rating
         Integer ratingId = jdbcTemplate.queryForObject(RETURN_FILM_RATING_ID_SQL_QUERY, Integer.class, filmId);
         String ratingName = jdbcTemplate.queryForObject(RETURN_RATING_NAME_BY_ID, String.class, ratingId);
-        film.setMpa(new IdNameMapping(ratingId, ratingName));
+        film.setMpa(new GenreRatingDto(ratingId, ratingName));
 
         //Setting genres
-        List<IdNameMapping> filmGenresMappingsList = jdbcTemplate.query(RETURN_FILM_GENRES_IDS_AND_NAMES_SQL_QUERY,
+        List<GenreRatingDto> filmGenresMappingsList = jdbcTemplate.query(RETURN_FILM_GENRES_IDS_AND_NAMES_SQL_QUERY,
                 genreMappingMapper, filmId);
-        TreeSet<IdNameMapping> filmGenresMappingsSet = new TreeSet<>(new IdNameMappingComparator());
+        TreeSet<GenreRatingDto> filmGenresMappingsSet = new TreeSet<>(new GenreRatingDtoComparator());
         filmGenresMappingsSet.addAll(filmGenresMappingsList);
         film.setGenres(filmGenresMappingsSet);
 

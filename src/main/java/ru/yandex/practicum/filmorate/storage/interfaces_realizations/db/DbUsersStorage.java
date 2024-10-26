@@ -44,13 +44,13 @@ public class DbUsersStorage implements UserStorage {
     private static final String RETURN_USER_EMAIL_SQL_QUERY = """
             SELECT e.email
             FROM users AS u
-            INNER JOIN emails AS e ON u.id = e.user_id
+            JOIN emails AS e ON u.id = e.user_id
             WHERE u.id = ?;
             """;
     private static final String RETURN_USER_LOGIN_SQL_QUERY = """
             SELECT l.login
             FROM users AS u
-            INNER JOIN logins AS l ON u.id = l.user_id
+            JOIN logins AS l ON u.id = l.user_id
             WHERE u.id = ?;
             """;
 
@@ -58,7 +58,7 @@ public class DbUsersStorage implements UserStorage {
             SELECT f.snd_user_id,
                    f.accepted_by_second
             FROM users AS u
-            INNER JOIN friendships AS f ON u.id = f.fst_user_id
+            JOIN friendships AS f ON u.id = f.fst_user_id
             WHERE u.id = ?;
             """;
 

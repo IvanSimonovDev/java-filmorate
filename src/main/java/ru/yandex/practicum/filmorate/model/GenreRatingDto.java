@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class IdNameMapping {
+public class GenreRatingDto {
     private int id;
     private String name;
 }

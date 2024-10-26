@@ -2,15 +2,15 @@ package ru.yandex.practicum.filmorate.storage.interfaces_realizations.db.dbmappe
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class RatingMappingMapper implements RowMapper<IdNameMapping> {
-    public IdNameMapping mapRow(ResultSet rs, int currentRow) throws SQLException {
-        IdNameMapping idNameMapping = new IdNameMapping();
+public class RatingMappingMapper implements RowMapper<GenreRatingDto> {
+    public GenreRatingDto mapRow(ResultSet rs, int currentRow) throws SQLException {
+        GenreRatingDto idNameMapping = new GenreRatingDto();
         idNameMapping.setId(rs.getInt("id"));
         idNameMapping.setName(rs.getString("name"));
         return idNameMapping;

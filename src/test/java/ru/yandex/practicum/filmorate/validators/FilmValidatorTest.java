@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.IdNameMapping;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
 import ru.yandex.practicum.filmorate.service.validators.FilmValidator;
 import ru.yandex.practicum.filmorate.service.validators.ValidationException;
 
@@ -19,7 +19,7 @@ public class FilmValidatorTest {
     @BeforeEach
     public void initializeFilm() {
         film = new Film((long) 1, "Film1", "Description1", "2022-02-02", 3600,
-                null, null, new IdNameMapping(1, "G"));
+                null, null, new GenreRatingDto(1, "G"));
     }
 
     @Test
