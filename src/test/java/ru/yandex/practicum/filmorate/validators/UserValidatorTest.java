@@ -3,9 +3,9 @@ package ru.yandex.practicum.filmorate.validators;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.service.validators.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.validators.UserValidator;
+import ru.yandex.practicum.filmorate.service.validators.ValidationException;
 
 public class UserValidatorTest {
     private User user;

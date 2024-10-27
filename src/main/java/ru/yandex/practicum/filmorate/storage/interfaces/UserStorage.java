@@ -1,11 +1,12 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.interfaces;
 
+import org.springframework.dao.DataAccessException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
 
 public interface UserStorage {
-    void cleanStorage();
+    void cleanStorage() throws DataAccessException;
 
     List<User> returnAllUsers();
 

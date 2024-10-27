@@ -7,8 +7,8 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.service.validators.UserValidator;
 import ru.yandex.practicum.filmorate.service.validators.ValidationException;
-import ru.yandex.practicum.filmorate.storage.NotFoundException;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.util.Collection;
 

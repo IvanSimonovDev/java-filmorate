@@ -2,8 +2,11 @@ package ru.yandex.practicum.filmorate.service.validators;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.GenreRatingDto;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class FilmValidator {
@@ -13,7 +16,9 @@ public class FilmValidator {
         boolean fieldsCorrect = validateFilmName(film.getName()) &&
                 validateFilmDescription(film.getDescription()) &&
                 validateFilmReleaseDate(film.getReleaseDate()) &&
-                validateFilmDuration(film.getDuration());
+                validateFilmDuration(film.getDuration()) &&
+                validateFilmGenresIds(film.getGenres()) &&
+                validateFilmMpa(film.getMpa());
         if (!fieldsCorrect) {
             ValidationException validationException = new ValidationException(NOT_PASSED_MESSAGE);
             log.error(NOT_PASSED_MESSAGE, validationException);
@@ -42,5 +47,19 @@ public class FilmValidator {
 
     private static boolean validateFilmDuration(Integer duration) {
         return duration > 0;
+    }
+
+    private static boolean validateFilmGenresIds(Set<GenreRatingDto> filmGenreIdsContainers) {
+        List<Integer> validGenresIds = List.of(1, 2, 3, 4, 5, 6);
+        List<Integer> filmGenreIds = null;
+        if (filmGenreIdsContainers != null) {
+            filmGenreIds = filmGenreIdsContainers.stream().map(GenreRatingDto::getId).toList();
+        }
+        return filmGenreIds == null || validGenresIds.containsAll(filmGenreIds) || filmGenreIds.isEmpty();
+    }
+
+    private static boolean validateFilmMpa(GenreRatingDto filmMpaContainer) {
+        List<Integer> validRatingIds = List.of(1, 2, 3, 4, 5);
+        return filmMpaContainer != null && validRatingIds.contains(filmMpaContainer.getId());
     }
 }

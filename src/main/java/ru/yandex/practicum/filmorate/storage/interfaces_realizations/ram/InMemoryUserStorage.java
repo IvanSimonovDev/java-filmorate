@@ -1,14 +1,19 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.interfaces_realizations.ram;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.validators.UserValidator;
+import ru.yandex.practicum.filmorate.storage.interfaces.NotFoundException;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
-@Component
+@Repository
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Long, User> usersMemory = new HashMap<>();
     private Long currentId = (long) 0;
